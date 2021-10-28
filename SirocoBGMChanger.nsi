@@ -2,9 +2,9 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "SirocoBGMChanger"
-!define PRODUCT_VERSION "4.2.1"
+!define PRODUCT_VERSION "4.3.0"
 !define PRODUCT_PUBLISHER "CSense-O2"
-!define PRODUCT_WEB_SITE "https://github.com/CSense-O2/SirocoBGMChanger"
+!define PRODUCT_WEB_SITE "http://bit.do/SirocoBGMChanger"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\SirocoBGMChanger.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -14,7 +14,7 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "MainFolder\icon.ico"
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -27,7 +27,6 @@
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
 !define MUI_FINISHPAGE_RUN "$INSTDIR\SirocoBGMChanger.exe"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\이용약관.txt"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -66,13 +65,11 @@ Section "MainSection" SEC01
   File "..\dist\SirocoBGMChanger\libcrypto-1_1.dll"
   File "..\dist\SirocoBGMChanger\libffi-7.dll"
   File "..\dist\SirocoBGMChanger\libssl-1_1.dll"
-  File "..\dist\SirocoBGMChanger\mfc140u.dll"
   SetOutPath "$INSTDIR\psutil"
   File "..\dist\SirocoBGMChanger\psutil\_psutil_windows.cp39-win_amd64.pyd"
   SetOutPath "$INSTDIR"
   File "..\dist\SirocoBGMChanger\pyexpat.pyd"
   File "..\dist\SirocoBGMChanger\python39.dll"
-  File "..\dist\SirocoBGMChanger\pythoncom39.dll"
   File "..\dist\SirocoBGMChanger\pywintypes39.dll"
   File "..\dist\SirocoBGMChanger\select.pyd"
   File "..\dist\SirocoBGMChanger\SirocoBGMChanger.exe"
@@ -1057,11 +1054,6 @@ Section "MainSection" SEC01
   File "..\dist\SirocoBGMChanger\unicodedata.pyd"
   File "..\dist\SirocoBGMChanger\VCRUNTIME140.dll"
   File "..\dist\SirocoBGMChanger\win32api.pyd"
-  SetOutPath "$INSTDIR\win32com\shell"
-  File "..\dist\SirocoBGMChanger\win32com\shell\shell.pyd"
-  SetOutPath "$INSTDIR"
-  File "..\dist\SirocoBGMChanger\win32trace.pyd"
-  File "..\dist\SirocoBGMChanger\win32ui.pyd"
   File "..\dist\SirocoBGMChanger\_asyncio.pyd"
   File "..\dist\SirocoBGMChanger\_bz2.pyd"
   File "..\dist\SirocoBGMChanger\_ctypes.pyd"
@@ -1127,9 +1119,6 @@ Section Uninstall
   Delete "$INSTDIR\_ctypes.pyd"
   Delete "$INSTDIR\_bz2.pyd"
   Delete "$INSTDIR\_asyncio.pyd"
-  Delete "$INSTDIR\win32ui.pyd"
-  Delete "$INSTDIR\win32trace.pyd"
-  Delete "$INSTDIR\win32com\shell\shell.pyd"
   Delete "$INSTDIR\win32api.pyd"
   Delete "$INSTDIR\VCRUNTIME140.dll"
   Delete "$INSTDIR\unicodedata.pyd"
@@ -2056,11 +2045,9 @@ Section Uninstall
   Delete "$INSTDIR\SirocoBGMChanger.exe"
   Delete "$INSTDIR\select.pyd"
   Delete "$INSTDIR\pywintypes39.dll"
-  Delete "$INSTDIR\pythoncom39.dll"
   Delete "$INSTDIR\python39.dll"
   Delete "$INSTDIR\pyexpat.pyd"
   Delete "$INSTDIR\psutil\_psutil_windows.cp39-win_amd64.pyd"
-  Delete "$INSTDIR\mfc140u.dll"
   Delete "$INSTDIR\libssl-1_1.dll"
   Delete "$INSTDIR\libffi-7.dll"
   Delete "$INSTDIR\libcrypto-1_1.dll"
@@ -2083,7 +2070,6 @@ Section Uninstall
   Delete "$SMPROGRAMS\SirocoBGMChanger\SirocoBGMChanger.lnk"
 
   RMDir "$SMPROGRAMS\SirocoBGMChanger"
-  RMDir "$INSTDIR\win32com\shell"
   RMDir "$INSTDIR\tk\ttk"
   RMDir "$INSTDIR\tk\msgs"
   RMDir "$INSTDIR\tk\images"

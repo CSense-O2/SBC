@@ -13,13 +13,20 @@ from string import ascii_uppercase
 from bs4 import BeautifulSoup
 from requests import get
 from win32api import GetFileVersionInfo, LOWORD, HIWORD
+import ctypes
+
+if ctypes.windll.shell32.IsUserAnAdmin():
+    pass
+else:
+    msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
+    sys.exit(0)
 
 현재버전 = '4.3.0'
 
 업데이트내역 = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-업데이트 서버 구축
+업데이트 서버 변경
 """
 
 real_path = os.getcwd()
@@ -42,11 +49,11 @@ download_list = []
 if response.status_code == 200:
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
-    version = soup.select_one('body > div > div > p')
+    version = soup.select_one('body > div.version > h1 > b')
     최신버전 = version.get_text().replace("v","")
     if 최신버전 > 현재버전 :
         msgbox.showinfo('최신 버전 발견','최신 버전 다운로드를 위해 링크가 열립니다.')
-        webbrowser.open('https://o2.pythonanywhere.com/patchnote/')
+        webbrowser.open('https://bit.do/SirocoBGMChanger')
         sys.exit(0)
     elif 최신버전 <= 현재버전 :
         pass
