@@ -2,9 +2,9 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "SirocoBGMChanger"
-!define PRODUCT_VERSION "4.3.0"
+!define PRODUCT_VERSION "4.4.0"
 !define PRODUCT_PUBLISHER "CSense-O2"
-!define PRODUCT_WEB_SITE "http://bit.do/SirocoBGMChanger"
+!define PRODUCT_WEB_SITE "https://bit.do/SirocoBGMChanger"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\SirocoBGMChanger.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -14,19 +14,20 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
+!define MUI_ICON "..\MainFolder\icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "MainFolder\이용약관.txt"
+!insertmacro MUI_PAGE_LICENSE "..\MainFolder\이용약관.txt"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
 !define MUI_FINISHPAGE_RUN "$INSTDIR\SirocoBGMChanger.exe"
+!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\MainFolder\이용약관.txt"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -60,17 +61,19 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\certifi"
   File "..\dist\SirocoBGMChanger\certifi\cacert.pem"
   SetOutPath "$INSTDIR"
-  File "..\dist\SirocoBGMChanger\filepath.txt"
-  File "..\dist\SirocoBGMChanger\icon.ico"
   File "..\dist\SirocoBGMChanger\libcrypto-1_1.dll"
   File "..\dist\SirocoBGMChanger\libffi-7.dll"
   File "..\dist\SirocoBGMChanger\libssl-1_1.dll"
+  SetOutPath "$INSTDIR\MainFolder"
+  File "..\dist\SirocoBGMChanger\MainFolder\filepath.txt"
+  File "..\dist\SirocoBGMChanger\MainFolder\icon.ico"
+  File "..\dist\SirocoBGMChanger\MainFolder\다시보지않기.txt"
+  File "..\dist\SirocoBGMChanger\MainFolder\이용약관.txt"
   SetOutPath "$INSTDIR\psutil"
   File "..\dist\SirocoBGMChanger\psutil\_psutil_windows.cp39-win_amd64.pyd"
   SetOutPath "$INSTDIR"
   File "..\dist\SirocoBGMChanger\pyexpat.pyd"
   File "..\dist\SirocoBGMChanger\python39.dll"
-  File "..\dist\SirocoBGMChanger\pywintypes39.dll"
   File "..\dist\SirocoBGMChanger\select.pyd"
   File "..\dist\SirocoBGMChanger\SirocoBGMChanger.exe"
   CreateDirectory "$SMPROGRAMS\SirocoBGMChanger"
@@ -1053,7 +1056,6 @@ Section "MainSection" SEC01
   File "..\dist\SirocoBGMChanger\tk86t.dll"
   File "..\dist\SirocoBGMChanger\unicodedata.pyd"
   File "..\dist\SirocoBGMChanger\VCRUNTIME140.dll"
-  File "..\dist\SirocoBGMChanger\win32api.pyd"
   File "..\dist\SirocoBGMChanger\_asyncio.pyd"
   File "..\dist\SirocoBGMChanger\_bz2.pyd"
   File "..\dist\SirocoBGMChanger\_ctypes.pyd"
@@ -1067,9 +1069,6 @@ Section "MainSection" SEC01
   File "..\dist\SirocoBGMChanger\_socket.pyd"
   File "..\dist\SirocoBGMChanger\_ssl.pyd"
   File "..\dist\SirocoBGMChanger\_tkinter.pyd"
-  File "..\dist\SirocoBGMChanger\_win32sysloader.pyd"
-  File "..\dist\SirocoBGMChanger\다시보지않기.txt"
-  File "..\dist\SirocoBGMChanger\이용약관.txt"
 SectionEnd
 
 Section -AdditionalIcons
@@ -1103,9 +1102,6 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\이용약관.txt"
-  Delete "$INSTDIR\다시보지않기.txt"
-  Delete "$INSTDIR\_win32sysloader.pyd"
   Delete "$INSTDIR\_tkinter.pyd"
   Delete "$INSTDIR\_ssl.pyd"
   Delete "$INSTDIR\_socket.pyd"
@@ -1119,7 +1115,6 @@ Section Uninstall
   Delete "$INSTDIR\_ctypes.pyd"
   Delete "$INSTDIR\_bz2.pyd"
   Delete "$INSTDIR\_asyncio.pyd"
-  Delete "$INSTDIR\win32api.pyd"
   Delete "$INSTDIR\VCRUNTIME140.dll"
   Delete "$INSTDIR\unicodedata.pyd"
   Delete "$INSTDIR\tk86t.dll"
@@ -2044,15 +2039,16 @@ Section Uninstall
   Delete "$INSTDIR\SirocoBGMChanger.exe.manifest"
   Delete "$INSTDIR\SirocoBGMChanger.exe"
   Delete "$INSTDIR\select.pyd"
-  Delete "$INSTDIR\pywintypes39.dll"
   Delete "$INSTDIR\python39.dll"
   Delete "$INSTDIR\pyexpat.pyd"
   Delete "$INSTDIR\psutil\_psutil_windows.cp39-win_amd64.pyd"
+  Delete "$INSTDIR\MainFolder\이용약관.txt"
+  Delete "$INSTDIR\MainFolder\다시보지않기.txt"
+  Delete "$INSTDIR\MainFolder\icon.ico"
+  Delete "$INSTDIR\MainFolder\filepath.txt"
   Delete "$INSTDIR\libssl-1_1.dll"
   Delete "$INSTDIR\libffi-7.dll"
   Delete "$INSTDIR\libcrypto-1_1.dll"
-  Delete "$INSTDIR\icon.ico"
-  Delete "$INSTDIR\filepath.txt"
   Delete "$INSTDIR\certifi\cacert.pem"
   Delete "$INSTDIR\Before\siroco_broken_r.ogg"
   Delete "$INSTDIR\Before\siroco_broken_o2.ogg"
@@ -2106,6 +2102,7 @@ Section Uninstall
   RMDir "$INSTDIR\tcl\encoding"
   RMDir "$INSTDIR\tcl"
   RMDir "$INSTDIR\psutil"
+  RMDir "$INSTDIR\MainFolder"
   RMDir "$INSTDIR\certifi"
   RMDir "$INSTDIR\Before"
   RMDir "$INSTDIR\After"

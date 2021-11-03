@@ -12,7 +12,6 @@ import webbrowser
 from string import ascii_uppercase
 from bs4 import BeautifulSoup
 from requests import get
-from win32api import GetFileVersionInfo, LOWORD, HIWORD
 import ctypes
 
 if ctypes.windll.shell32.IsUserAnAdmin():
@@ -21,12 +20,13 @@ else:
     msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
     sys.exit(0)
 
-현재버전 = '4.3.0'
+현재버전 = '4.4.0'
 
 업데이트내역 = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-업데이트 서버 변경
+투명도 조절 기능 추가
+관리자 권한 자동 획득 기능 추가
 """
 
 real_path = os.getcwd()
@@ -37,7 +37,7 @@ for drive in list(ascii_uppercase):
             DNF_path = path.replace('\\','/')
             break
 
-with open(exe_path+'/다시보지않기.txt','r',encoding='utf-8') as file:
+with open(exe_path+'/MainFolder/다시보지않기.txt','r',encoding='utf-8') as file:
     read = file.read()
 
 url = 'https://o2.pythonanywhere.com/patchnote/'
@@ -65,27 +65,31 @@ else:
 root = Tk()
 root.title("SirocoBGMChanger")
 w = 200
-h = 100
+h = 130
 ws = root.winfo_screenwidth()
 hs = root.winfo_screenheight()
 x = (ws-w)/2
 y = (hs-h)/2
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 root.resizable(False, False)
-root.iconbitmap(exe_path+'/icon.ico')
+root.wm_attributes("-topmost", 1)
+root.iconbitmap(exe_path+'/MainFolder/icon.ico')
 
 if '다시보지않기' not in read:
     toplevel = Toplevel(root)
     toplevel.title('업데이트 내역')
     toplevel.geometry('+%d+%d' % (x, y))
-    toplevel.iconbitmap(exe_path+'/icon.ico')
+    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
     toplevel.wm_attributes("-topmost", 1)
     Label(toplevel,text=업데이트내역).pack(padx=10,pady=5)
     def 다시보지않기():
-        with open(exe_path+'/다시보지않기.txt','w',encoding='UTF-8') as file:
+        with open(exe_path+'/MainFolder/다시보지않기.txt','w',encoding='UTF-8') as file:
             file.write('다시보지않기')
         toplevel.destroy()
     Button(toplevel,text='다시보지않기',command=다시보지않기).pack(padx=10,pady=5)
+
+def slide(_):
+    root.attributes('-alpha', slide_bar.get())
 
 def link_btn():
     toplevel = Toplevel(root)
@@ -97,7 +101,7 @@ def link_btn():
     x = (ws-w)/2
     y = (hs-h)/2
     toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
-    toplevel.iconbitmap(exe_path+'/icon.ico')
+    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
 
     def git_btn_cmd():
         webbrowser.open('https://github.com/CSense-O2/SirocoBGMChanger/issues')
@@ -130,7 +134,7 @@ def change_btn():
     x = (ws-w)/2
     y = (hs-h)/2
     toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
-    toplevel.iconbitmap(exe_path+'/icon.ico')
+    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
     def num1_btn():
         number1_dir = filedialog.askopenfile(initialdir="/", title="1번 관문 BGM 파일 선택",filetypes=(("OGG files", "*.ogg"),('all files','*.*')))
         if filedialog.Open():
@@ -138,11 +142,11 @@ def change_btn():
             file_name = number1_dir.name.split('/')[-1]
             q1 = msgbox.askyesno('1번 관문 BGM 설정 알림',file_name+'을 \n1번 관문의 BGM 으로 설정하시겠습니까?')
             if q1 == 1:
-                f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
                 file = f.read().split('\n')
                 file_list = file[0].replace(file[0],dir_name)+'\n'+'\n'.join(file[1:])
                 f.close()
-                f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
                 f.write(file_list)
                 f.close()
                 msgbox.showinfo('1번 관문 BGM 설정 변경 완료','1번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
@@ -154,11 +158,11 @@ def change_btn():
             file_name = number2_dir.name.split('/')[-1]
             q2 = msgbox.askyesno('2번 관문 BGM 설정 알림',file_name+'을 \n2번 관문의 BGM 으로 설정하시겠습니까?')
             if q2 == 1 :
-                f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
                 file = f.read().split('\n')
                 file_list = ''.join(file[0])+'\n'+file[1].replace(file[1],dir_name)+'\n'+'\n'.join(file[2:])
                 f.close()
-                f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
                 f.write(file_list)
                 f.close()
                 msgbox.showinfo('2번 관문 BGM 설정 변경 완료','2번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
@@ -170,11 +174,11 @@ def change_btn():
             file_name = number3_dir.name.split('/')[-1]
             q3 = msgbox.askyesno('3번 관문 BGM 설정 알림',file_name+'을 \n3번 설정의 BGM 으로 설정하시겠습니까?')
             if q3 == 1 :
-                f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
                 file = f.read().split('\n')
                 file_list = '\n'.join(file[:2])+'\n'+file[2].replace(file[2],dir_name)+'\n'+''.join(file[3])
                 f.close()
-                f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
                 f.write(file_list)
                 f.close()
                 msgbox.showinfo('3번 관문 BGM 설정 변경 완료','3번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
@@ -186,11 +190,11 @@ def change_btn():
             file_name = number4_dir.name.split('/')[-1]
             q4 = msgbox.askyesno('4번 관문 BGM 설정 알림',file_name+'을 \n4번 관문의 BGM 으로 설정하시겠습니까?')
             if q4 == 1 :
-                f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
                 file = f.read().split('\n')
                 file_list = '\n'.join(file[:3])+'\n'+file[3].replace(file[3],dir_name)
                 f.close()
-                f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
                 f.write(file_list)
                 f.close()
                 msgbox.showinfo('4번 관문 BGM 설정 변경 완료','4번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
@@ -198,11 +202,11 @@ def change_btn():
     def change1_btn():
         q1 = msgbox.askyesno('1번 관문 BGM 설정 초기화 확인','1번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
         if q1 == 1 :
-            f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
             file = f.read().split('\n')
             file_list = 'siroco_broken_d.ogg\n'+'\n'.join(file[1:])
             f.close()
-            f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
             f.write(file_list)
             f.close()
             msgbox.showinfo('1번 관문 BGM 설정 초기화 완료','1번 관문의 BGM 설정이 애국가 1절로 초기화되었습니다.')
@@ -210,11 +214,11 @@ def change_btn():
     def change2_btn():
         q2 = msgbox.askyesno('2번 관문 BGM 설정 초기화 확인','2번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
         if q2 == 1 :
-            f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
             file = f.read().split('\n')
             file_list = ''.join(file[0])+'\n'+'siroco_broken_o1.ogg'+'\n'+'\n'.join(file[2:])
             f.close()
-            f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
             f.write(file_list)
             f.close()
             msgbox.showinfo('2번 관문 BGM 설정 초기화 완료','2번 관문의 BGM 설정이 애국가 2절로 초기화되었습니다.')
@@ -222,11 +226,11 @@ def change_btn():
     def change3_btn():
         q3 = msgbox.askyesno('3번 관문 BGM 설정 초기화 확인','3번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
         if q3 == 1 :
-            f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
             file = f.read().split('\n')
             file_list = '\n'.join(file[:2])+'\n'+'siroco_broken_o2.ogg\n'+''.join(file[3])
             f.close()
-            f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
             f.write(file_list)
             f.close()
             msgbox.showinfo('3번 관문 BGM 설정 초기화 완료','3번관문의 BGM 설정이 애국가 3절로 초기화되었습니다.')
@@ -234,17 +238,17 @@ def change_btn():
     def change4_btn():
         q4 = msgbox.askyesno('4번 관문 BGM 설정 초기화 확인','4번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
         if q4 == 1 :
-            f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
             file = f.read().split('\n')
             file_list = '\n'.join(file[:3])+'\nsiroco_broken_r.ogg'
             f.close()
-            f = open(exe_path+'/filepath.txt','w',encoding='UTF-8')
+            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
             f.write(file_list)
             f.close()
             msgbox.showinfo('4번 관문 BGM 설정 초기화 완료','4번 관문의 BGM 설정이 애국가 4절로 초기화되었습니다.')
 
     def all_change_btn():
-        with open(exe_path+'/filepath.txt','w',encoding='utf-8') as file:
+        with open(exe_path+'/MainFolder/filepath.txt','w',encoding='utf-8') as file:
             file.write('siroco_broken_d.ogg\nsiroco_broken_o1.ogg\nsiroco_broken_o2.ogg\nsiroco_broken_r.ogg')
         msgbox.showinfo('모든 관문 BGM 설정 초기화 완료','모든 관문의 BGM 설정이 초기화 되었습니다.')
 
@@ -299,7 +303,7 @@ def apply_btn_cmd():
         else:
             exist = exist+['error']
     if 'exist' in exist:
-        f = open(exe_path+'/filepath.txt','r',encoding='UTF-8')
+        f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
         file_list = f.read().split('\n')
         original = ['siroco_broken_d.ogg','siroco_broken_o1.ogg','siroco_broken_o2.ogg','siroco_broken_r.ogg']
         for file in file_list:
@@ -325,4 +329,6 @@ btn1 = Button(root, bg='White', width=10, height=2, text="적용하기",relief='
 btn1.place(x=10, y=15)
 btn2 = Button(root, bg='white', width=10, height=2, text="되돌리기",relief='groove', command=return_btn_cmd)
 btn2.place(x=100, y=15)
+slide_bar = Scale(root, from_=0.1, to=1.0, resolution=0.01, label='투명도', orient=HORIZONTAL, showvalue=FALSE, relief='groove', sliderrelief='groove', command=slide)
+slide_bar.place(x=43, y=60)
 root.mainloop()
