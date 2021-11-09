@@ -20,13 +20,13 @@ else:
     msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
     sys.exit(0)
 
-현재버전 = '4.4.0'
+현재버전 = '4.5.0'
 
 업데이트내역 = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-투명도 조절 기능 추가
-관리자 권한 자동 획득 기능 추가
+※ 투명도 조절 기능 이전
+※ 메인 창 항상 위로 기능 추가
 """
 
 real_path = os.getcwd()
@@ -65,14 +65,13 @@ else:
 root = Tk()
 root.title("SirocoBGMChanger")
 w = 200
-h = 130
+h = 100
 ws = root.winfo_screenwidth()
 hs = root.winfo_screenheight()
 x = (ws-w)/2
 y = (hs-h)/2
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 root.resizable(False, False)
-root.wm_attributes("-topmost", 1)
 root.iconbitmap(exe_path+'/MainFolder/icon.ico')
 
 if '다시보지않기' not in read:
@@ -87,9 +86,6 @@ if '다시보지않기' not in read:
             file.write('다시보지않기')
         toplevel.destroy()
     Button(toplevel,text='다시보지않기',command=다시보지않기).pack(padx=10,pady=5)
-
-def slide(_):
-    root.attributes('-alpha', slide_bar.get())
 
 def link_btn():
     toplevel = Toplevel(root)
@@ -135,117 +131,46 @@ def change_btn():
     y = (hs-h)/2
     toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
     toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
-    def num1_btn():
-        number1_dir = filedialog.askopenfile(initialdir="/", title="1번 관문 BGM 파일 선택",filetypes=(("OGG files", "*.ogg"),('all files','*.*')))
+
+    def change_btn(number):
+        number_dir = filedialog.askopenfile(initialdir="/", title=number+"번 관문 BGM 파일 선택", filetypes=(("OGG files", "*.ogg"),("all files","*.*")))
         if filedialog.Open():
-            dir_name = number1_dir.name
-            file_name = number1_dir.name.split('/')[-1]
-            q1 = msgbox.askyesno('1번 관문 BGM 설정 알림',file_name+'을 \n1번 관문의 BGM 으로 설정하시겠습니까?')
+            dir_name = number_dir.name
+            file_name = number_dir.name.split('/')[-1]
+            q1 = msgbox.askyesno(number+"번 관문 BGM 설정 알림",file_name+'을 \n'+number+'번 관문의 BGM 파일로 설정하시겠습니까?')
             if q1 == 1:
-                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
+                with open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8') as f:
+                    file = f.read().split('\n')
+                if number == 1:
+                    file_list = file[0].replace(file[0],dir_name)+'\n'+'\n'.join(file[1:])
+                elif number == 2:
+                    file_list = ''.join(file[0])+'\n'+file[1].replace(file[1],dir_name)+'\n'+'\n'.join(file[2:])
+                elif number == 3:
+                    file_list = '\n'.join(file[:2])+'\n'+file[2].replace(file[2],dir_name)+'\n'+''.join(file[3])
+                elif number == 4:
+                    file_list = '\n'.join(file[:3])+'\n'+file[3].replace(file[3],dir_name)
+                else:
+                    msgbox.showerror("관문 번호 로딩 오류",'관리자에게 "관문 번호 로딩 오류" 라고 전달해주세요')
+                with open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8') as file:
+                    file.write(file_list)
+                msgbox.showinfo(number+'번 관문 BGM 설정 변경 완료',number+'번 관문의 BGM 파일 설정이 '+file_name+'으로 변경되었습니다.')
+                
+    def reset_btn(number):
+        q2 = msgbox.askyesno(number+'번 관문 BMG 설정 초기화 확인',number+'번 관문의 BGM 파일 설정을 애국가로 초기화하시겠습니까?')
+        if q2 == 1:
+            with open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8') as f:
                 file = f.read().split('\n')
-                file_list = file[0].replace(file[0],dir_name)+'\n'+'\n'.join(file[1:])
-                f.close()
-                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-                f.write(file_list)
-                f.close()
-                msgbox.showinfo('1번 관문 BGM 설정 변경 완료','1번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
-
-    def num2_btn():
-        number2_dir = filedialog.askopenfilename(initialdir='/', title='2번 관문 BGM 파일 선택',filetypes=(("OGG files", "*.ogg"),('all files','*.*')))
-        if filedialog.Open():
-            dir_name = number2_dir.name
-            file_name = number2_dir.name.split('/')[-1]
-            q2 = msgbox.askyesno('2번 관문 BGM 설정 알림',file_name+'을 \n2번 관문의 BGM 으로 설정하시겠습니까?')
-            if q2 == 1 :
-                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-                file = f.read().split('\n')
-                file_list = ''.join(file[0])+'\n'+file[1].replace(file[1],dir_name)+'\n'+'\n'.join(file[2:])
-                f.close()
-                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-                f.write(file_list)
-                f.close()
-                msgbox.showinfo('2번 관문 BGM 설정 변경 완료','2번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
-
-    def num3_btn():
-        number3_dir = filedialog.askopenfilename(initialdir='/', title='3번 관문 BGM 파일 선택',filetypes=(("OGG files", "*.ogg"),('all files','*.*')))
-        if filedialog.Open():
-            dir_name = number3_dir.name
-            file_name = number3_dir.name.split('/')[-1]
-            q3 = msgbox.askyesno('3번 관문 BGM 설정 알림',file_name+'을 \n3번 설정의 BGM 으로 설정하시겠습니까?')
-            if q3 == 1 :
-                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-                file = f.read().split('\n')
-                file_list = '\n'.join(file[:2])+'\n'+file[2].replace(file[2],dir_name)+'\n'+''.join(file[3])
-                f.close()
-                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-                f.write(file_list)
-                f.close()
-                msgbox.showinfo('3번 관문 BGM 설정 변경 완료','3번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
-
-    def num4_btn():
-        number4_dir = filedialog.askopenfilename(initialdir='/', title='4번 관문 BGM 파일 선택',filetypes=(("OGG files", "*.ogg"),('all files','*.*')))
-        if filedialog.Open():
-            dir_name = number4_dir.name
-            file_name = number4_dir.name.split('/')[-1]
-            q4 = msgbox.askyesno('4번 관문 BGM 설정 알림',file_name+'을 \n4번 관문의 BGM 으로 설정하시겠습니까?')
-            if q4 == 1 :
-                f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-                file = f.read().split('\n')
-                file_list = '\n'.join(file[:3])+'\n'+file[3].replace(file[3],dir_name)
-                f.close()
-                f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-                f.write(file_list)
-                f.close()
-                msgbox.showinfo('4번 관문 BGM 설정 변경 완료','4번 관문의 BGM 설정이 '+file_name+'으로 변경되었습니다.')
-
-    def change1_btn():
-        q1 = msgbox.askyesno('1번 관문 BGM 설정 초기화 확인','1번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
-        if q1 == 1 :
-            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-            file = f.read().split('\n')
-            file_list = 'siroco_broken_d.ogg\n'+'\n'.join(file[1:])
-            f.close()
-            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-            f.write(file_list)
-            f.close()
-            msgbox.showinfo('1번 관문 BGM 설정 초기화 완료','1번 관문의 BGM 설정이 애국가 1절로 초기화되었습니다.')
-
-    def change2_btn():
-        q2 = msgbox.askyesno('2번 관문 BGM 설정 초기화 확인','2번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
-        if q2 == 1 :
-            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-            file = f.read().split('\n')
-            file_list = ''.join(file[0])+'\n'+'siroco_broken_o1.ogg'+'\n'+'\n'.join(file[2:])
-            f.close()
-            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-            f.write(file_list)
-            f.close()
-            msgbox.showinfo('2번 관문 BGM 설정 초기화 완료','2번 관문의 BGM 설정이 애국가 2절로 초기화되었습니다.')
-
-    def change3_btn():
-        q3 = msgbox.askyesno('3번 관문 BGM 설정 초기화 확인','3번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
-        if q3 == 1 :
-            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-            file = f.read().split('\n')
-            file_list = '\n'.join(file[:2])+'\n'+'siroco_broken_o2.ogg\n'+''.join(file[3])
-            f.close()
-            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-            f.write(file_list)
-            f.close()
-            msgbox.showinfo('3번 관문 BGM 설정 초기화 완료','3번관문의 BGM 설정이 애국가 3절로 초기화되었습니다.')
-
-    def change4_btn():
-        q4 = msgbox.askyesno('4번 관문 BGM 설정 초기화 확인','4번 관문의 BGM 설정을 애국가로 초기화하시겠습니까?')
-        if q4 == 1 :
-            f = open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8')
-            file = f.read().split('\n')
-            file_list = '\n'.join(file[:3])+'\nsiroco_broken_r.ogg'
-            f.close()
-            f = open(exe_path+'/MainFolder/filepath.txt','w',encoding='UTF-8')
-            f.write(file_list)
-            f.close()
-            msgbox.showinfo('4번 관문 BGM 설정 초기화 완료','4번 관문의 BGM 설정이 애국가 4절로 초기화되었습니다.')
+            if number == 1:
+                file_list = 'siroco_broken_d.ogg\n'+'\n'.join(file[1:])
+            elif number == 2:
+                file_list = ''.join(file[0])+'\n'+'siroco_broken_o1.ogg'+'\n'+'\n'.join(file[2:])
+            elif number == 3:
+                file_list = '\n'.join(file[:2])+'\n'+'siroco_broken_o2.ogg\n'+''.join(file[3])
+            elif number == 4:
+                file_list = '\n'.join(file[:3])+'\nsiroco_broken_r.ogg'
+            else:
+                msgbox.showerror("관문 번호 로딩 오류",'관리자에게 "관문 번호 로딩 오류" 라고 전달해주세요')
+            msgbox.showinfo(number+'번 관문 BMG 파일 설정 초기화 완료',number+'번 관문의 BGM 파일 설정이 애국가로 초기화 되었습니다.')
 
     def all_change_btn():
         with open(exe_path+'/MainFolder/filepath.txt','w',encoding='utf-8') as file:
@@ -254,14 +179,50 @@ def change_btn():
 
     Label(toplevel, text='   ').grid(row=0, column=0)
     Button(toplevel,bg='White', width=10, height=2, text='모두 초기화',command=all_change_btn).grid(row=1, column=2)
-    Button(toplevel,bg='White', width=10, height=2, text='1번 바꾸기' ,command=num1_btn).grid(row=2, column=1)
-    Button(toplevel,bg='White', width=10, height=2, text='2번 바꾸기' ,command=num2_btn).grid(row=3, column=1)
-    Button(toplevel,bg='White', width=10, height=2, text='3번 바꾸기' ,command=num3_btn).grid(row=4, column=1)
-    Button(toplevel,bg='White', width=10, height=2, text='4번 바꾸기' ,command=num4_btn).grid(row=5, column=1)
-    Button(toplevel,bg='White', width=10, height=2, text='1번 초기화' ,command=change1_btn).grid(row=2, column=3)
-    Button(toplevel,bg='White', width=10, height=2, text='2번 초기화' ,command=change2_btn).grid(row=3, column=3)
-    Button(toplevel,bg='White', width=10, height=2, text='3번 초기화' ,command=change3_btn).grid(row=4, column=3)
-    Button(toplevel,bg='White', width=10, height=2, text='4번 초기화' ,command=change4_btn).grid(row=5, column=3)
+    Button(toplevel,bg='White', width=10, height=2, text='1번 바꾸기' ,command=lambda: change_btn('1')).grid(row=2, column=1)
+    Button(toplevel,bg='White', width=10, height=2, text='2번 바꾸기' ,command=lambda: change_btn('2')).grid(row=3, column=1)
+    Button(toplevel,bg='White', width=10, height=2, text='3번 바꾸기' ,command=lambda: change_btn('3')).grid(row=4, column=1)
+    Button(toplevel,bg='White', width=10, height=2, text='4번 바꾸기' ,command=lambda: change_btn('4')).grid(row=5, column=1)
+    Button(toplevel,bg='White', width=10, height=2, text='1번 초기화' ,command=lambda: reset_btn('1')).grid(row=2, column=3)
+    Button(toplevel,bg='White', width=10, height=2, text='2번 초기화' ,command=lambda: reset_btn('2')).grid(row=3, column=3)
+    Button(toplevel,bg='White', width=10, height=2, text='3번 초기화' ,command=lambda: reset_btn('3')).grid(row=4, column=3)
+    Button(toplevel,bg='White', width=10, height=2, text='4번 초기화' ,command=lambda: reset_btn('4')).grid(row=5, column=3)
+
+def up_btn():
+    toplevel = Toplevel(root)
+    toplevel.title('항상 맨 위로 설정')
+    w=200
+    h=100
+    ws = toplevel.winfo_screenwidth()
+    hs = toplevel.winfo_screenheight()
+    x = (ws-w)/2
+    y = (hs-h)/2
+    toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
+    def up():
+        if chk1.get() == 1:
+            root.wm_attributes("-topmost", 1)
+        else:
+            root.wm_attributes("-topmost", 0)
+    chk1 = IntVar()
+    chk1_btn = Checkbutton(toplevel, text="항상 맨 위로", variable=chk1, bg='white', command=up)
+    chk1_btn.pack(pady=5)
+
+def transparency_btn():
+    toplevel = Toplevel(root)
+    toplevel.title('투명도 설정')
+    w=200
+    h=100
+    ws = toplevel.winfo_screenwidth()
+    hs = toplevel.winfo_screenheight()
+    x = (ws-w)/2
+    y = (hs-h)/2
+    toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
+    def slide(_):
+        root.attributes('-alpha', slide_bar.get())
+    slide_bar = Scale(toplevel, from_=0.1, to=1.0, resolution=0.01, label='투명도', orient=HORIZONTAL, showvalue=FALSE, relief='groove', sliderlength=20, sliderrelief='groove', command=slide)
+    slide_bar.pack(pady=5)
 
 menu = Menu(root)
 menu_update = Menu(menu, tearoff=0, relief='groove')
@@ -272,8 +233,13 @@ menu_update.add_command(label="현재 버전 확인", command=version_btn)
 menu_update.add_command(label="업데이트 로그", command=update_log)
 menu_chat = Menu(menu, tearoff=0, relief='groove')
 menu_chat.add_command(label="오류 및 건의사항", command=link_btn)
+menu_func = Menu(menu, tearoff=0, relief='groove')
+menu_func.add_command(label="항상 맨 위로", command=up_btn)
+menu_func.add_command(label="투명도 설정", command=transparency_btn)
+
 menu.add_cascade(label="정보", menu=menu_update)
 menu.add_cascade(label="소통", menu=menu_chat)
+menu.add_cascade(label="기능", menu=menu_func)
 root.config(menu=menu)
 
 abs_path = DNF_path+'/Music'
@@ -329,6 +295,4 @@ btn1 = Button(root, bg='White', width=10, height=2, text="적용하기",relief='
 btn1.place(x=10, y=15)
 btn2 = Button(root, bg='white', width=10, height=2, text="되돌리기",relief='groove', command=return_btn_cmd)
 btn2.place(x=100, y=15)
-slide_bar = Scale(root, from_=0.1, to=1.0, resolution=0.01, label='투명도', orient=HORIZONTAL, showvalue=FALSE, relief='groove', sliderrelief='groove', command=slide)
-slide_bar.place(x=43, y=60)
 root.mainloop()
