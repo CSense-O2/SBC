@@ -20,13 +20,12 @@ else:
     msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
     sys.exit(0)
 
-현재버전 = '4.5.0'
+현재버전 = '4.5.1'
 
 업데이트내역 = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-※ 투명도 조절 기능 이전
-※ 메인 창 항상 위로 기능 추가
+※ 관문 BGM 커스텀 설정 오류 수정
 """
 
 real_path = os.getcwd()
@@ -141,13 +140,13 @@ def change_btn():
             if q1 == 1:
                 with open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8') as f:
                     file = f.read().split('\n')
-                if number == 1:
+                if number == '1':
                     file_list = file[0].replace(file[0],dir_name)+'\n'+'\n'.join(file[1:])
-                elif number == 2:
+                elif number == '2':
                     file_list = ''.join(file[0])+'\n'+file[1].replace(file[1],dir_name)+'\n'+'\n'.join(file[2:])
-                elif number == 3:
+                elif number == '3':
                     file_list = '\n'.join(file[:2])+'\n'+file[2].replace(file[2],dir_name)+'\n'+''.join(file[3])
-                elif number == 4:
+                elif number == '4':
                     file_list = '\n'.join(file[:3])+'\n'+file[3].replace(file[3],dir_name)
                 else:
                     msgbox.showerror("관문 번호 로딩 오류",'관리자에게 "관문 번호 로딩 오류" 라고 전달해주세요')
@@ -160,13 +159,13 @@ def change_btn():
         if q2 == 1:
             with open(exe_path+'/MainFolder/filepath.txt','r',encoding='UTF-8') as f:
                 file = f.read().split('\n')
-            if number == 1:
+            if number == '1':
                 file_list = 'siroco_broken_d.ogg\n'+'\n'.join(file[1:])
-            elif number == 2:
+            elif number == '2':
                 file_list = ''.join(file[0])+'\n'+'siroco_broken_o1.ogg'+'\n'+'\n'.join(file[2:])
-            elif number == 3:
+            elif number == '3':
                 file_list = '\n'.join(file[:2])+'\n'+'siroco_broken_o2.ogg\n'+''.join(file[3])
-            elif number == 4:
+            elif number == '4':
                 file_list = '\n'.join(file[:3])+'\nsiroco_broken_r.ogg'
             else:
                 msgbox.showerror("관문 번호 로딩 오류",'관리자에게 "관문 번호 로딩 오류" 라고 전달해주세요')
