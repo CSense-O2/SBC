@@ -20,12 +20,13 @@ else:
     msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
     sys.exit(0)
 
-현재버전 = '4.5.1'
+현재버전 = '4.5.2'
 
 업데이트내역 = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-※ 관문 BGM 커스텀 설정 오류 수정
+※ 다운로드 링크 오류 수정
+※ 서버 오류 코드 세분화
 """
 
 real_path = os.getcwd()
@@ -58,6 +59,9 @@ if response.status_code == 200:
         pass
     else:
         msgbox.showerror('버전 확인 오류','관리자에게 "버전 확인 오류"라고 전달해주세요.')
+elif response.status_code == 404:
+    msgbox.showinfo('현재 점검중입니다.','현재 점검중이니 관리자에게 문의해주세요.')
+    webbrowser.open('https://open.kakao.com/me/csense')
 else:
     msgbox.showerror("파싱 오류",'response : '+response.status_code+"\n해당 오류 코드를 관리자에게 전달해 주세요.")
 
@@ -295,3 +299,5 @@ btn1.place(x=10, y=15)
 btn2 = Button(root, bg='white', width=10, height=2, text="되돌리기",relief='groove', command=return_btn_cmd)
 btn2.place(x=100, y=15)
 root.mainloop()
+
+# pyinstaller --clean -w --uac-admin --icon=.\SirocoBGMChanger\MainFolder\icon.ico --add-data='.\SirocoBGMChanger\After\*;After' --add-data='.\SirocoBGMChanger\Before\*;Before' --add-data='.\SirocoBGMChanger\MainFolder\*;MainFolder' .\SirocoBGMChanger\SirocoBGMChanger.py
