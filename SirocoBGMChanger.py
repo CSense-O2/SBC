@@ -20,13 +20,15 @@ else:
     msgbox.showinfo('관리자 권한 미확인','관리자 권한으로 실행해주세요')
     sys.exit(0)
 
-현재버전 = '4.5.2'
+현재버전 = '4.6.0'
 
-업데이트내역 = """
+patchnote = """
 ### ver."""+현재버전+""" 업데이트 안내 ###
 
-※ 다운로드 링크 오류 수정
-※ 서버 오류 코드 세분화
+● 홈페이지 수정
+● 버전 추출 관련 내부 코드 수정
+● 카카오톡 채널 추가
+● 카카오톡 채널 추가 관련 내부 코드 수정
 """
 
 real_path = os.getcwd()
@@ -40,7 +42,7 @@ for drive in list(ascii_uppercase):
 with open(exe_path+'/MainFolder/다시보지않기.txt','r',encoding='utf-8') as file:
     read = file.read()
 
-url = 'https://o2.pythonanywhere.com/patchnote/'
+url = 'https://bit.do/SirocoBGMChanger'
 
 response = get(url)
 
@@ -49,8 +51,13 @@ download_list = []
 if response.status_code == 200:
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
-    version = soup.select_one('body > div.version > h1 > b')
-    최신버전 = version.get_text().replace("v","")
+    version = soup.select_one('#version > h1')
+    try:
+        최신버전 = version.get_text().replace("v","")
+    except AttributeError:
+        msgbox.showinfo('최신버전 확인 오류','최신 버전 확인에 오류가 발생했습니다.\r홈페이지를 확인해주세요.')
+        webbrowser.open('https://bit.do/SirocoBGMChanger')
+        sys.exit(0)
     if 최신버전 > 현재버전 :
         msgbox.showinfo('최신 버전 발견','최신 버전 다운로드를 위해 링크가 열립니다.')
         webbrowser.open('https://bit.do/SirocoBGMChanger')
@@ -59,11 +66,13 @@ if response.status_code == 200:
         pass
     else:
         msgbox.showerror('버전 확인 오류','관리자에게 "버전 확인 오류"라고 전달해주세요.')
+        webbrowser.open('http://pf.kakao.com/_laxars/chat')
 elif response.status_code == 404:
     msgbox.showinfo('현재 점검중입니다.','현재 점검중이니 관리자에게 문의해주세요.')
-    webbrowser.open('https://open.kakao.com/me/csense')
+    webbrowser.open('http://pf.kakao.com/_laxars/chat')
 else:
     msgbox.showerror("파싱 오류",'response : '+response.status_code+"\n해당 오류 코드를 관리자에게 전달해 주세요.")
+    webbrowser.open('http://pf.kakao.com/_laxars/chat')
 
 root = Tk()
 root.title("SirocoBGMChanger")
@@ -83,7 +92,7 @@ if '다시보지않기' not in read:
     toplevel.geometry('+%d+%d' % (x, y))
     toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
     toplevel.wm_attributes("-topmost", 1)
-    Label(toplevel,text=업데이트내역).pack(padx=10,pady=5)
+    Label(toplevel,text=patchnote).pack(padx=10,pady=5)
     def 다시보지않기():
         with open(exe_path+'/MainFolder/다시보지않기.txt','w',encoding='UTF-8') as file:
             file.write('다시보지않기')
@@ -91,31 +100,10 @@ if '다시보지않기' not in read:
     Button(toplevel,text='다시보지않기',command=다시보지않기).pack(padx=10,pady=5)
 
 def link_btn():
-    toplevel = Toplevel(root)
-    toplevel.title('오류 및 건의사항')
-    w=200
-    h=100
-    ws = toplevel.winfo_screenwidth()
-    hs = toplevel.winfo_screenheight()
-    x = (ws-w)/2
-    y = (hs-h)/2
-    toplevel.geometry('%dx%d+%d+%d' % (w, h, x, y))
-    toplevel.iconbitmap(exe_path+'/MainFolder/icon.ico')
-
-    def git_btn_cmd():
-        webbrowser.open('https://github.com/CSense-O2/SirocoBGMChanger/issues')
-
-    def kakao_btn_cmd():
-        webbrowser.open('https://open.kakao.com/me/csense')
-
-    btn1 = Button(toplevel, bg='White', width=10, height=2, text="Github", command=git_btn_cmd)
-    btn1.place(x=10, y=20)
-
-    btn2 = Button(toplevel, bg='white', width=10, height=2, text="Kakao Talk", command=kakao_btn_cmd)
-    btn2.place(x=100, y=20)
+    webbrowser.open('http://pf.kakao.com/_laxars/chat')
 
 def update_log():
-    msgbox.showinfo("업데이트 내용 확인", 업데이트내역)
+    msgbox.showinfo("업데이트 내용 확인", patchnote)
 
 def install_btn():
     msgbox.showinfo("던파 설치 경로", DNF_path)
@@ -173,6 +161,7 @@ def change_btn():
                 file_list = '\n'.join(file[:3])+'\nsiroco_broken_r.ogg'
             else:
                 msgbox.showerror("관문 번호 로딩 오류",'관리자에게 "관문 번호 로딩 오류" 라고 전달해주세요')
+                webbrowser.open('http://pf.kakao.com/_laxars/chat')
             msgbox.showinfo(number+'번 관문 BMG 파일 설정 초기화 완료',number+'번 관문의 BGM 파일 설정이 애국가로 초기화 되었습니다.')
 
     def all_change_btn():
@@ -283,9 +272,11 @@ def apply_btn_cmd():
                 shutil.copyfile(exe_path+'/After/'+file,abs_path+'/'+original[num])
             else:
                 msgbox.showinfo('파일 복사 오류','관리자에게 "파일 복사 오류"라고 전달해주세요.')
+                webbrowser.open('http://pf.kakao.com/_laxars/chat')
         msgbox.showinfo("알림", "관문 BGM 파일 적용 완료")
     elif 'error' in exist:
         msgbox.showerror('적용하기 오류', '관리자에게 "적용하기 오류"라고 전달해주세요.')
+        webbrowser.open('http://pf.kakao.com/_laxars/chat')
     else:
         msgbox.showwarning('던파 미실행','던파 미실행 상태에서 적용시 적용이 불가능합니다.')
 
