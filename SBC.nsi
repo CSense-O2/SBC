@@ -14,13 +14,13 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "..\..\..\dist\SBC\MainFolder\icon.ico"
+!define MUI_ICON "MainFolder\icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "..\..\..\dist\SBC\MainFolder\이용약관.txt"
+!insertmacro MUI_PAGE_LICENSE "MainFolder\이용약관.txt"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page

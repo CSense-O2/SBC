@@ -37,12 +37,12 @@ if response.status_code == 200:
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
     version = soup.select_one('#version')
-    updatelog = soup.select_one('#patchnote')
-    patchnote = """
-### ver."""+현재버전+""" 업데이트 안내 ###
-"""+updatelog.get_text()
     try:
         최신버전 = version.get_text().replace("v", "")
+        updatelog = soup.select_one('#'+version)
+        patchnote = """
+### ver."""+현재버전+""" 업데이트 안내 ###
+"""+updatelog.get_text()
     except AttributeError:
         msgbox.showinfo('최신버전 확인 오류', '최신 버전 확인에 오류가 발생했습니다.\r홈페이지를 확인해주세요.')
         webbrowser.open('https://bit.do/sirocobgmchanger')
