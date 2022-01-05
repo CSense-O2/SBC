@@ -156,7 +156,7 @@ def change_btn():
 
     def reset_btn(number):
         q3 = msgbox.askquestion(number+'번 관문 BMG 설정 초기화 확인',
-                             number+'번 관문의 BGM 파일 설정을 애국가로 초기화하시겠습니까?')
+                                number+'번 관문의 BGM 파일 설정을 애국가로 초기화하시겠습니까?')
         if q3 == 'yes':
             with open(exe_path+'/MainFolder/filepath.txt', 'r', encoding='UTF-8') as f:
                 file = f.read().split('\n')
@@ -248,11 +248,18 @@ def transparency_btn():
     slide_bar.pack(pady=5)
 
 
+def restore_btn():
+    if os.path.isfile(backup_path):
+        q4 = msgbox.askquestion('파일 경로 복원', '브금 파일들의 경로를 복원하시겠습니까?')
+        if q4 == 'yes':
+            shutil.copyfile(backup_path, exe_path+'/MainFolder/filepath.txt')
+
+
 def backup_btn():
     if os.path.isfile(backup_path):
-        q4 = msgbox.askquestion(
+        q5 = msgbox.askquestion(
             '파일 복원 확인', '해당 경로에 복원파일이 이미 존재합니다.\n파일을 덮어쓰시겠습니까?')
-        if q4 == 'yes':
+        if q5 == 'yes':
             shutil.copyfile(exe_path+'/MainFolder/filepath.txt', backup_path)
 
 
@@ -269,6 +276,7 @@ menu_func = Menu(menu, tearoff=0, relief='groove')
 menu_func.add_command(label="항상 맨 위로", command=up_btn)
 menu_func.add_command(label="투명도 설정", command=transparency_btn)
 menu_func.add_command(label="파일 경로 백업", command=backup_btn)
+menu_func.add_command(label="파일 경로 복원", command=restore_btn)
 
 menu.add_cascade(label="정보", menu=menu_update)
 menu.add_cascade(label="소통", menu=menu_chat)
