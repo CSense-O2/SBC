@@ -6,4 +6,4 @@ Download
 ======
 | Platform | Link | Status |
 |---|---|---|
-| Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | ![Github All Releases](https://img.shields.io/github/downloads/CSense-O2/SBC/latest/total?color=bright%20green&label=Downloads&logo=SBC&logoColor=Dark) |
+| Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | [![Github All Releases](https://img.shields.io/github/downloads/CSense-O2/SBC/latest/total?color=bright%20green&label=Downloads&logo=SBC&logoColor=Dark)](https://github.com/CSense-O2/SBC/releases) |
