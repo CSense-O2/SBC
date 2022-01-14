@@ -42,7 +42,8 @@ if response.status_code == 200:
         updatelog = soup.select_one('#repo-content-pjax-container > div > div > div.Box-body > div.markdown-body.my-3 > p').get_text()
         patchnote = """
 ### """+현재버전+""" 업데이트 안내 ###
-"""+updatelog
+
+"""+updatelog+'\n'
     except AttributeError:
         msgbox.showinfo('최신버전 확인 오류', '최신 버전 확인에 오류가 발생했습니다.\r홈페이지를 확인해주세요.')
         webbrowser.open('https://github.com/CSense-O2/SBC/labels/Error')
