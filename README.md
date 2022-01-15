@@ -4,9 +4,9 @@ Siroco BGM Changer(이하 "SBC")는 던전앤파이터(이하 "던파") '무형�
 
 Download
 ======
-| Platform | Link | Status |
-|---|---|---|
-| Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | [![Github All Releases](https://img.shields.io/github/downloads/CSense-O2/SBC/latest/total?color=brightgreen&label=Downloads&logo=Github&sytle=placstic)](https://github.com/CSense-O2/SBC/releases) |
+ Platform | Link | Status | Version
+---|---|---|---
+Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | [![Github All Releases](https://img.shields.io/github/downloads/CSense-O2/SBC/latest/total?color=brightgreen&label=Downloads&logo=Github&sytle=placstic)](https://github.com/CSense-O2/SBC/releases) |[![GitHub release (latest by date)](https://img.shields.io/github/v/release/CSense-O2/SBC?logo=github&style=social)](https://github.com/CSense-O2/SBC/releases)
 
 Function
 ===
