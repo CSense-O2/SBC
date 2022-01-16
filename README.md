@@ -6,7 +6,7 @@ Download
 ======
  Platform | Link | Status | Version
 ---|---|---|---
-Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | [![Github All Releases](https://img.shields.io/github/downloads/CSense-O2/SBC/latest/total?color=brightgreen&label=Downloads&logo=Github&sytle=placstic)](https://github.com/CSense-O2/SBC/releases) |[![GitHub release (latest by date)](https://img.shields.io/github/v/release/CSense-O2/SBC?logo=github&style=social)](https://github.com/CSense-O2/SBC/releases)
+Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | ![GitHub all releases](https://img.shields.io/github/downloads/CSense-O2/SBC/total?color=brightgreen&logo=github&style=flat-square) |[![GitHub release (latest by date)](https://img.shields.io/github/v/release/CSense-O2/SBC?logo=github&style=social)](https://github.com/CSense-O2/SBC/releases)
 
 Function
 ===
