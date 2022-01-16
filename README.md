@@ -20,6 +20,6 @@ Connect
 ===
 Sort | Status | Link
 :---:|:---:|:---:
-오류 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Error?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Error)|[Link](https://github.com/CSense-O2/SBC/labels/Error
+오류 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Error?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Error)|[Link](https://github.com/CSense-O2/SBC/labels/Error)
 건의 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Suggestion?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Suggestion)|[Link](https://github.com/CSense-O2/SBC/labels/Suggestion)
 질문 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Question?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Question)|[Link](https://github.com/CSense-O2/SBC/labels/Question)
