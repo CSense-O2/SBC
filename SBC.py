@@ -145,13 +145,13 @@ def change_btn():
             with open(exe_path+'/MainFolder/filepath.txt', 'w', encoding='UTF-8') as f:
                 f.write(file)
             if number == '1':
-                shutil.copyfile(exe_path+'/Before/siroco_broken_d.ogg',exe_path+'/After/siroco_broken_d.ogg')
+                shutil.copyfile(exe_path+'/Backup/siroco_broken_d.ogg',exe_path+'/After/siroco_broken_d.ogg')
             elif number == '2':
-                shutil.copyfile(exe_path+'/Before/siroco_broken_o1.ogg',exe_path+'/After/siroco_broken_o1.ogg')
+                shutil.copyfile(exe_path+'/Backup/siroco_broken_o1.ogg',exe_path+'/After/siroco_broken_o1.ogg')
             elif number == '3':
-                shutil.copyfile(exe_path+'/Before/siroco_broken_o2.ogg',exe_path+'/After/siroco_broken_o2.ogg')
+                shutil.copyfile(exe_path+'/Backup/siroco_broken_o2.ogg',exe_path+'/After/siroco_broken_o2.ogg')
             elif number == '4':
-                shutil.copyfile(exe_path+'/Before/siroco_broken_r.ogg',exe_path+'/After/siroco_broken_r.ogg')
+                shutil.copyfile(exe_path+'/Backup/siroco_broken_r.ogg',exe_path+'/After/siroco_broken_r.ogg')
             else:
                 msgbox.showerror('관문 번호 오류','관리자에게 "관문 번호 오류" 라고 전달해주세요.')
                 webbrowser.open('http://bit.do/SBC-homepage')
@@ -160,7 +160,7 @@ def change_btn():
     def all_change_btn():
         with open(exe_path+'/MainFolder/filepath.txt', 'w', encoding='utf-8') as file:
             file.write('애국가\n애국가\n애국가\n애국가')
-        shutil.copytree(exe_path+'/Before',exe_path+'/After')
+        shutil.copytree(exe_path+'/Backup',exe_path+'/After')
         msgbox.showinfo('모든 관문 BGM 설정 초기화 완료', '모든 관문의 BGM 설정이 초기화 되었습니다.')
     Label(toplevel, text='   ').grid(row=0, column=0)
     Button(toplevel, bg='White', width=10, height=2, text='모두 초기화', command=all_change_btn).grid(row=1, column=2)
@@ -260,19 +260,12 @@ def apply_btn_cmd():
         else:
             exist = exist+['error']
     if 'exist' in exist:
-        f = open(exe_path+'/MainFolder/filepath.txt', 'r', encoding='UTF-8')
-        file_list = f.read().split('\n')
-        original = ['siroco_broken_d.ogg','siroco_broken_o1.ogg','siroco_broken_o2.ogg','siroco_broken_r.ogg']
-        for file in file_list:
-            num = file_list.index(file)
-            if original[num] != file:
-                shutil.copyfile(file,abs_path+'/'+original[num])
-            elif original[num] == file:
-                shutil.copyfile(exe_path+'/After/'+file,abs_path+'/'+original[num])
-            else:
-                msgbox.showinfo('파일 복사 오류', '관리자에게 "파일 복사 오류"라고 전달해주세요.')
-                webbrowser.open('http://bit.do/SBC-homepage')
-        msgbox.showinfo("알림", "관문 BGM 파일 적용 완료")
+        try:
+            shutil.copytree(exe_path+'/After',abs_path)
+            msgbox.showinfo("알림", "관문 BGM 파일 적용 완료")
+        except:
+            msgbox.showerror('파일 복사 오류','관리자에게 "파일 복사 오류"라고 전달해주세요.')
+            webbrowser.open('http://bit.do/SBC-homepage')
     elif 'error' in exist:
         msgbox.showerror('적용하기 오류', '관리자에게 "적용하기 오류"라고 전달해주세요.')
         webbrowser.open('http://bit.do/SBC-homepage')
