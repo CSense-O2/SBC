@@ -45,8 +45,6 @@ if response.status_code == 200:
         sys.exit(0)
     if 최신버전 > 현재버전:
         msgbox.showinfo('최신 버전 발견', '최신 버전 다운로드를 위해 링크가 열립니다.')
-        with open(exe_path+'/MainFolder/다시보지않기.txt','w',encoding='UTF-8') as f:
-            f.write('')
         webbrowser.open('http://bit.do/SBC-homepage')
         sys.exit(0)
     elif 최신버전 <= 현재버전:
