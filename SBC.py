@@ -44,16 +44,9 @@ if response.status_code == 200:
         webbrowser.open('http://bit.doSBC-homepage')
         sys.exit(0)
     if 최신버전 > 현재버전:
-        q1 = msgbox.askquestion(
-            '최신 버전 발견', '최신 버전 다운로드를 위해 링크가 열립니다.\n커스텀 브금 파일을 백업하시겠습니까?')
-        if q1 == 'yes':
-            shutil.copyfile(exe_path+'/MainFolder/filepath.txt', backup_path+'/filepath.txt')
-            shutil.copytree(exe_path+'/After',backup_path+'/After')
-        else:
-            pass
+        msgbox.showinfo('최신 버전 발견', '최신 버전 다운로드를 위해 링크가 열립니다.')
         with open(exe_path+'/MainFolder/다시보지않기.txt','w',encoding='UTF-8') as f:
             f.write('')
-        msgbox.showinfo('최신 버전 발견','최신 버전 다운로드를 위한 링크가 열립니다.')
         webbrowser.open('http://bit.do/SBC-homepage')
         sys.exit(0)
     elif 최신버전 <= 현재버전:
