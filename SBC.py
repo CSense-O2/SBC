@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+from distutils.dir_util import copy_tree
 import psutil
 import tkinter.messagebox as msgbox
 from tkinter import *
@@ -13,7 +14,7 @@ from string import ascii_uppercase
 from bs4 import BeautifulSoup
 from requests import get
 
-현재버전 = 'v4.7.0'
+현재버전 = 'v4.7.1'
 
 real_path = os.getcwd()
 exe_path = real_path.replace('\\', '/')
@@ -158,7 +159,7 @@ def change_btn():
     def all_change_btn():
         with open(exe_path+'/MainFolder/filepath.txt', 'w', encoding='utf-8') as file:
             file.write('애국가\n애국가\n애국가\n애국가')
-        shutil.copytree(exe_path+'/Backup',exe_path+'/After')
+        copy_tree(exe_path+'/Backup',exe_path+'/After')
         msgbox.showinfo('모든 관문 BGM 설정 초기화 완료', '모든 관문의 BGM 설정이 초기화 되었습니다.')
     Label(toplevel, text='   ').grid(row=0, column=0)
     Button(toplevel, bg='White', width=10, height=2, text='모두 초기화', command=all_change_btn).grid(row=1, column=2)
@@ -217,7 +218,7 @@ def restore_btn():
         q4 = msgbox.askquestion('파일 경로 복원', '브금 파일들을 복원하시겠습니까?')
         if q4 == 'yes':
             shutil.copyfile(backup_path+'/filepath.txt', exe_path+'/MainFolder/filepath.txt')
-            shutil.copytree(backup_path+'/After',exe_path+'/After')
+            copy_tree(backup_path+'/After',exe_path+'/After')
     else:
         msgbox.showerror('파일 복원 실패','백업 파일들이 존재하지 않습니다')
 
@@ -227,11 +228,11 @@ def backup_btn():
             '파일 복원 확인', '해당 경로에 복원파일이 이미 존재합니다.\n파일을 덮어쓰시겠습니까?')
         if q5 == 'yes':
             shutil.copyfile(exe_path+'/MainFolder/filepath.txt', backup_path+'/filepath.txt')
-            shutil.copytree(exe_path+'/After',backup_path+'/After')
+            copy_tree(exe_path+'/After',backup_path+'/After')
     else:
         os.mkdir(backup_path)
         shutil.copyfile(exe_path+'/MainFolder/filepath.txt', backup_path+'/filepath.txt')
-        shutil.copytree(exe_path+'/After',backup_path+'/After')
+        copy_tree(exe_path+'/After',backup_path+'/After')
 
 def read_all_file(path):
     output = os.listdir(path)
@@ -259,7 +260,7 @@ def apply_btn_cmd():
             exist = exist+['error']
     if 'exist' in exist:
         try:
-            shutil.copytree(exe_path+'/After',abs_path)
+            copy_tree(exe_path+'/After',abs_path)
             msgbox.showinfo("알림", "관문 BGM 파일 적용 완료")
         except:
             msgbox.showerror('파일 복사 오류','관리자에게 "파일 복사 오류"라고 전달해주세요.')
