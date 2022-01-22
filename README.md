@@ -6,7 +6,7 @@ Download
 ======
  Platform | Link | Status | Version
 ---|---|---|---
-Download from github | [SBC releases](https://github.com/CSense-O2/SBC/releases) | ![GitHub all releases](https://img.shields.io/github/downloads/CSense-O2/SBC/total?color=brightgreen&logo=github&style=flat-square) |[![GitHub release (latest by date)](https://img.shields.io/github/v/release/CSense-O2/SBC?logo=github&style=social)](https://github.com/CSense-O2/SBC/releases)
+Download from github | [SBC releases](https://github.com/c-closed/SBC/releases) | [![GitHub all releases](https://img.shields.io/github/downloads/c-closed/SBC/total?color=brightgreen&logo=github&style=flat-square)](https://github.com/c-closed/SBC/releases) |[![GitHub release (latest by date)](https://img.shields.io/github/v/release/c-closed/SBC?logo=github&style=social)](https://github.com/c-closed/SBC/releases)
 
 Function
 ===
@@ -20,6 +20,6 @@ Connect
 ===
 Sort | Status | Link
 :---:|:---:|:---:
-오류 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Error?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Error)|[Link](https://github.com/CSense-O2/SBC/labels/Error)
-건의 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Suggestion?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Suggestion)|[Link](https://github.com/CSense-O2/SBC/labels/Suggestion)
-질문 | [![GitHub issues by-label](https://img.shields.io/github/issues/CSense-O2/SBC/Question?color=brightgreen&logo=Github&style=flat-square)](https://github.com/CSense-O2/SBC/labels/Question)|[Link](https://github.com/CSense-O2/SBC/labels/Question)
+오류 | [![GitHub issues by-label](https://img.shields.io/github/issues/c-closed/SBC/Error?color=brightgreen&logo=Github&style=flat-square)](https://github.com/c-closed/SBC/labels/Error)|[Link](https://github.com/c-closed/SBC/labels/Error)
+건의 | [![GitHub issues by-label](https://img.shields.io/github/issues/c-closed/SBC/Suggestion?color=brightgreen&logo=Github&style=flat-square)](https://github.com/c-closed/SBC/labels/Suggestion)|[Link](https://github.com/c-closed/SBC/labels/Suggestion)
+질문 | [![GitHub issues by-label](https://img.shields.io/github/issues/c-closed/SBC/Question?color=brightgreen&logo=Github&style=flat-square)](https://github.com/c-closed/SBC/labels/Question)|[Link](https://github.com/c-closed/SBC/labels/Question)
