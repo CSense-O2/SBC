@@ -1,4 +1,4 @@
-Copyright (C) 2021 CSense-O2 
+Copyright (C) 2021-2022 c-closed
 
 The above program is a Sirocco BGM changer.
 Features include:
