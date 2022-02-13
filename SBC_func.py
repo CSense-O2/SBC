@@ -2,7 +2,6 @@
 ### 코드를 무단으로 복제,개조 및 배포하지 말 것 ###
 ### Copyright ⓒ 2021-2022 c-closed / 감는 my______baby@naver.com ###
 import SBC_info
-import SBC_GUI
 import SBC_update
 import webbrowser
 import tkinter.messagebox as msgbox
@@ -14,36 +13,20 @@ import os
 from distutils.dir_util import copy_tree
 import psutil
 
-def donotseeagain():
-    with open(SBC_info.exe_path+'/MainFolder/다시보지않기.txt', 'r', encoding='UTF-8') as file:
-        read = file.read()
-    if '다시보지않기' not in read:
-        toplevel = Toplevel(SBC_GUI.root)
-        toplevel.title('업데이트 내역')
-        toplevel.geometry('+%d+%d' % (SBC_GUI.x, SBC_GUI.y))
-        toplevel.iconbitmap(SBC_info.exe_path+'/MainFolder/icon.ico')
-        toplevel.wm_attributes("-topmost", 1)
-        Label(toplevel, text=SBC_update.patchnote).pack(padx=10, pady=5)
-        def 다시보지않기():
-            with open(SBC_info.exe_path+'/MainFolder/다시보지않기.txt', 'w', encoding='UTF-8') as file:
-                file.write('다시보지않기')
-            toplevel.destroy()
-        Button(toplevel, text='다시보지않기', command=다시보지않기).pack(padx=10, pady=5)
-
-
-def link_btn():
-    webbrowser.open('http://bit.do/SBC-homepage')
+def install_btn():
+    msgbox.showinfo("던파 설치 경로", SBC_info.DNF_path)
+    
+def open_homepage():
+    webbrowser.open(SBC_info.homepage_url)
 
 def update_log():
     msgbox.showinfo("업데이트 내용 확인", SBC_update.patchnote)
-
-def install_btn():
-    msgbox.showinfo("던파 설치 경로", SBC_info.DNF_path)
 
 def version_btn():
     msgbox.showinfo("현재 버전", '[ '+SBC_info.current_version+' ]')
 
 def change_btn():
+    import SBC_GUI
     toplevel = Toplevel(SBC_GUI.root)
     toplevel.title('관문 BGM 설정 변경')
     w = 285
@@ -73,7 +56,7 @@ def change_btn():
                 shutil.copyfile(file_path,SBC_info.exe_path+'/After/siroco_broken_r.ogg')
             else:
                 msgbox.showerror('관문 번호 오류','관리자에게 "관문 번호 오류" 라고 전달해주세요.')
-                webbrowser.open('http://bit.do/SBC-homepage')
+                open_homepage()
                 sys.exit(0)
         with open(SBC_info.exe_path+'/MainFloder/filepath.txt','w',encoding='UTF-8') as f:
             f.write(file_path)
@@ -121,6 +104,7 @@ def check_btn():
     msgbox.showinfo('BGM 파일 설정 확인','현재 설정된 BGM 파일은 다음과 같습니다.\n1번 관문 : '+file.split('\n')[0]+'\n2번 관문 : '+file.split('\n')[1]+'\n3번 관문 : '+file.split('\n')[2]+'\n4번 관문 : '+file.split('\n')[3])
 
 def up_btn():
+    import SBC_GUI
     toplevel = Toplevel(SBC_GUI.root)
     toplevel.title('항상 맨 위로 설정')
     w = 200
@@ -141,6 +125,7 @@ def up_btn():
     chk1_btn.pack(pady=5)
 
 def transparency_btn():
+    import SBC_GUI
     toplevel = Toplevel(SBC_GUI.root)
     toplevel.title('투명도 설정')
     w = 200
