@@ -128,6 +128,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode/
-
-SBC_info.py
-SBC_info.py
