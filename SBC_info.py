@@ -5,3 +5,14 @@ import os
 from string import ascii_uppercase
 
 current_version = 'v4.7.3'
+homepage_url = 'http://bit.do/SBC-homepage'
+update_check_url = 'https://api.github.com/repos/c-closed/SBC/releases/latest'
+real_path = os.getcwd()
+exe_path = real_path.replace('\\', '/')
+backup_path = os.path.expanduser('~')+'/Desktop/SBC_backup'
+for drive in list(ascii_uppercase):
+    for (path, dir, files) in os.walk(drive+':/'):
+        if 'DNF.exe' in files:
+            DNF_path = path.replace('\\', '/')
+            break
+abs_path = DNF_path+'/Music'
