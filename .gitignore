@@ -130,3 +130,4 @@ dmypy.json
 .vscode/
 
 SBC_info.py
+setup.py
